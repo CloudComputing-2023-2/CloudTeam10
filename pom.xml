@@ -100,7 +100,7 @@
     </dependencies>
 
     <build>
-        <finalName>team10-jar-final</finalName>
+        <finalName>team10-jar-final-v3</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

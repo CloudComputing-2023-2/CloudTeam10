@@ -18,10 +18,9 @@ public class RequestController {
         this.requestService = requestService;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/api/requests")
     @ResponseBody
-    public String getRequest() {
+    public Request getRequest() {
         return requestService.getLatestRequest();
 
     }

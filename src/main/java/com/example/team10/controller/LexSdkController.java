@@ -1,9 +1,9 @@
 package com.example.team10.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
@@ -28,11 +28,13 @@ public class LexSdkController {
             .build();
 
     @PostMapping("/askLexV2")
-    public String askLexV2(@RequestBody String userMessage) {
+    public boolean askLexV2(@RequestBody String userMessage) {
         String botId = "AWJPW47JO2";
         String botAliasId = "J6QWJ17NDB";
         String localeId = "ko_KR";
         String sessionId = UUID.randomUUID().toString();
+
+        System.out.println("다음 요청을 받았습니다 : " + userMessage);
 
         try{
             RecognizeTextRequest recognizeTextRequest = RecognizeTextRequest.builder()
@@ -45,15 +47,19 @@ public class LexSdkController {
 
             RecognizeTextResponse recognizeTextResponse = lexRuntimeV2Client.recognizeText(recognizeTextRequest);
 
-            return "OK";
+            System.out.println("OK");
+
+            return true;
         } catch (DependencyFailedException e) {
             e.printStackTrace();
 
-            return "수행이 됨";
+            System.out.println("수행이 됨");
+
+            return true;
         } catch (LexRuntimeException e){
             e.printStackTrace();
-        }
 
-        return "FAIL";
+            return false;
+        }
     }
 }
